@@ -89,8 +89,24 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       if (attachment.hasKey("path") && !attachment.isNull("path")) {
         String path = attachment.getString("path");
         File file = new File(path);
+        String name = "";
+        if (attachment.hasKey("name"))
+          name = attachment.getString("name");
+        else
+          name = file.getName();
+        file.setReadable(true, false);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+          uri = Uri.fromFile(file);
+        } else {
+          uri = FileProvider.getUriForFile(
+                  getCurrentActivity,
+                  reactContext.getApplicationContext().getPackageName() + ".provider",
+                  file);
+        }
         Uri p = Uri.fromFile(file);
+        i.setType("*/*");
         i.putExtra(Intent.EXTRA_STREAM, p);
+        i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       }
     }
 
