@@ -93,21 +93,24 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       if (attachment.hasKey("path") && !attachment.isNull("path")) {
         String path = attachment.getString("path");
         File file = new File(path);
-        try {
-          uri = FileProvider.getUriForFile(
-                  getCurrentActivity(),
-                  reactContext.getApplicationContext().getPackageName() + ".provider",
-                  file);
-
-        } catch (Exception e) {
-          String message = "There was a problem sharing the file " + file.getName();
-          Log.e("RNMail", message);
-          callback.invoke("error", message + "\n" + e.getMessage());
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+          Log.i("RNMail uri", uri.toString());
+          uri = Uri.fromFile(file);
+        } else {
+          try {
+            uri = FileProvider.getUriForFile(
+                    getCurrentActivity(),
+                    reactContext.getApplicationContext().getPackageName() + ".provider",
+                    file);
+            Log.i("RNMail file Provider", uri.toString());
+          } catch (Exception e) {
+            String message = "There was a problem sharing the file " + file.getName();
+            Log.e("RNMail", message);
+            callback.invoke("error", message + "\n" + e.getMessage());
+          }
         }
         String message = "the file uri " + uri.toString();
         Log.i("RNMail", message);
-        //i.setType("*/*");
-        //Uri p = Uri.fromFile(file);
         i.putExtra(Intent.EXTRA_STREAM, uri);
         i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       }

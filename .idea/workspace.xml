@@ -7,10 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b00b4975-822b-46e7-9c85-68a789d9bf15" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/chirag/RNMail/RNMailModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/chirag/RNMail/RNMailModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/res/xml/provider_paths.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/res/xml/provider_paths.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,12 +23,7 @@
         <entry file="file://$PROJECT_DIR$/android/src/main/java/com/chirag/RNMail/RNMailModule.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="768">
-              <caret line="142" lean-forward="true" selection-start-line="142" selection-end-line="142" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#997#998#0" expanded="true" />
-                <element signature="e#1022#1023#0" expanded="true" />
-              </folding>
+              <caret line="145" lean-forward="true" selection-start-line="145" selection-end-line="145" />
             </state>
           </provider>
         </entry>
@@ -44,6 +37,22 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/android/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="68" selection-start-line="8" selection-start-column="68" selection-end-line="8" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RNMail.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/android/src/main/java/com/chirag/RNMail/RNMail.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state />
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -53,11 +62,12 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/android/src/main/res/xml/provider_paths.xml" />
+        <option value="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/android/src/main/java/com/chirag/RNMail/RNMailModule.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="279" />
     <option name="y" value="57" />
     <option name="width" value="1400" />
@@ -287,15 +297,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/android/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="68" selection-start-line="8" selection-start-column="68" selection-end-line="8" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/src/main/java/com/chirag/RNMail/RNMail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/android/src/main/java/com/chirag/RNMail/RNMailModule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="768">
-          <caret line="142" lean-forward="true" selection-start-line="142" selection-end-line="142" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#997#998#0" expanded="true" />
-            <element signature="e#1022#1023#0" expanded="true" />
-          </folding>
+          <caret line="145" lean-forward="true" selection-start-line="145" selection-end-line="145" />
         </state>
       </provider>
     </entry>
