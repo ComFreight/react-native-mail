@@ -22,6 +22,7 @@ import java.io.File;
 public class RNMailModule extends ReactContextBaseJavaModule {
 
   ReactApplicationContext reactContext;
+  Uri uri;
 
   public RNMailModule(ReactApplicationContext reactContext) {
     super(reactContext);
