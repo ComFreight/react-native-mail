@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.text.Html;
+import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -35,12 +38,12 @@ public class RNMailModule extends ReactContextBaseJavaModule {
   }
 
   /**
-    * Converts a ReadableArray to a String array
-    *
-    * @param r the ReadableArray instance to convert
-    *
-    * @return array of strings
-  */
+   * Converts a ReadableArray to a String array
+   *
+   * @param r the ReadableArray instance to convert
+   *
+   * @return array of strings
+   */
   private String[] readableArrayToStringArray(ReadableArray r) {
     int length = r.size();
     String[] strArray = new String[length];
@@ -90,23 +93,22 @@ public class RNMailModule extends ReactContextBaseJavaModule {
       if (attachment.hasKey("path") && !attachment.isNull("path")) {
         String path = attachment.getString("path");
         File file = new File(path);
-        String name = "";
-        if (attachment.hasKey("name"))
-          name = attachment.getString("name");
-        else
-          name = file.getName();
-        file.setReadable(true, false);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-          uri = Uri.fromFile(file);
-        } else {
+        try {
           uri = FileProvider.getUriForFile(
-                  getCurrentActivity,
+                  getCurrentActivity(),
                   reactContext.getApplicationContext().getPackageName() + ".provider",
                   file);
+
+        } catch (Exception e) {
+          String message = "There was a problem sharing the file " + file.getName();
+          Log.e("RNMail", message);
+          callback.invoke("error", message + "\n" + e.getMessage());
         }
-        Uri p = Uri.fromFile(file);
-        i.setType("*/*");
-        i.putExtra(Intent.EXTRA_STREAM, p);
+        String message = "the file uri " + uri.toString();
+        Log.i("RNMail", message);
+        //i.setType("*/*");
+        //Uri p = Uri.fromFile(file);
+        i.putExtra(Intent.EXTRA_STREAM, uri);
         i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       }
     }
