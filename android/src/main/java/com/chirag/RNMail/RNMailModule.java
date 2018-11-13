@@ -94,8 +94,8 @@ public class RNMailModule extends ReactContextBaseJavaModule {
         String path = attachment.getString("path");
         File file = new File(path);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-          Log.i("RNMail uri", uri.toString());
           uri = Uri.fromFile(file);
+          Log.i("RNMail uri", uri.toString());
         } else {
           try {
             uri = FileProvider.getUriForFile(
@@ -109,16 +109,19 @@ public class RNMailModule extends ReactContextBaseJavaModule {
             callback.invoke("error", message + "\n" + e.getMessage());
           }
         }
+        //uri = Uri.parse(path);
         String message = "the file uri " + uri.toString();
         Log.i("RNMail", message);
         i.putExtra(Intent.EXTRA_STREAM, uri);
-        i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       }
     }
 
     PackageManager manager = reactContext.getPackageManager();
     List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
-
+    for (ResolveInfo resolvedIntentInfo : list) {
+      final String packageName = resolvedIntentInfo.activityInfo.packageName;
+      reactContext.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+    }
     if (list == null || list.size() == 0) {
       callback.invoke("not_available");
       return;
