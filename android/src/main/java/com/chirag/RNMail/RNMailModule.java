@@ -5,7 +5,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 import android.text.Html;
 import android.util.Log;
 
@@ -98,9 +98,11 @@ public class RNMailModule extends ReactContextBaseJavaModule {
           Log.i("RNMail uri", uri.toString());
         } else {
           try {
+            final String packageName = reactContext.getApplicationContext().getPackageName();
+            final String authority =  new StringBuilder(packageName).append(".provider").toString();
             uri = FileProvider.getUriForFile(
-                    getCurrentActivity(),
-                    reactContext.getApplicationContext().getPackageName() + ".provider",
+                    reactContext,
+                    authority,
                     file);
             Log.i("RNMail file Provider", uri.toString());
           } catch (Exception e) {
@@ -115,34 +117,38 @@ public class RNMailModule extends ReactContextBaseJavaModule {
         i.putExtra(Intent.EXTRA_STREAM, uri);
       }
     }
-
-    PackageManager manager = reactContext.getPackageManager();
-    List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
-    for (ResolveInfo resolvedIntentInfo : list) {
-      final String packageName = resolvedIntentInfo.activityInfo.packageName;
-      reactContext.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-    }
-    if (list == null || list.size() == 0) {
-      callback.invoke("not_available");
-      return;
-    }
-
-    if (list.size() == 1) {
-      i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      try {
-        reactContext.startActivity(i);
-      } catch (Exception ex) {
-        callback.invoke("error");
+    try{
+      PackageManager manager = reactContext.getPackageManager();
+      List<ResolveInfo> list = manager.queryIntentActivities(i, 0);
+      for (ResolveInfo resolvedIntentInfo : list) {
+        final String packageName = resolvedIntentInfo.activityInfo.packageName;
+        reactContext.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
       }
-    } else {
-      Intent chooser = Intent.createChooser(i, "Send Mail");
-      chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-      try {
-        reactContext.startActivity(chooser);
-      } catch (Exception ex) {
-        callback.invoke("error");
+      if (list == null || list.size() == 0) {
+        callback.invoke("not_available");
+        return;
       }
+
+      if (list.size() == 1) {
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+          reactContext.startActivity(i);
+        } catch (Exception ex) {
+          callback.invoke("error");
+        }
+      } else {
+        Intent chooser = Intent.createChooser(i, "Send Mail");
+        chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        try {
+          reactContext.startActivity(chooser);
+        } catch (Exception ex) {
+          callback.invoke("error");
+        }
+      }
+    } catch(Exception e) {
+      String message = "There was a problem sharing the file";
+      callback.invoke("error", message + "\n" + e.getMessage());
     }
   }
 }
